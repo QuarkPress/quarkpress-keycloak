@@ -1,0 +1,11 @@
+target/
+# the QuarkPress checkout CI builds lib-wp-password from
+.quarkpress/
+.idea/
+*.iml
+.vscode/
+.settings/
+.project
+.classpath
+.factorypath
+.DS_Store

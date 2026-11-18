@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: JDK 21 / Keycloak ${{ matrix.keycloak }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # the version the providers compile against (Quarkus Dev Services' default) and the newest 26.x: the
+        # password-hashing SPI is internal to Keycloak, so a minor release may change it
+        keycloak: [26.7.4, 26.8.2]
+    steps:
+      - uses: actions/checkout@v4
+      # Read with sed, not Maven: the build needs lib-wp-password, which is installed only by the next steps.
+      - name: Read the pin
+        run: |
+          pin="$(sed -n 's:.*<quarkpress.commit>\(.*\)</quarkpress.commit>.*:\1:p' pom.xml)"
+          [ "${#pin}" -eq 40 ] || { echo "::error::quarkpress.commit not found in pom.xml"; exit 1; }
+          echo "QUARKPRESS_COMMIT=$pin" >> "$GITHUB_ENV"
+      # QuarkPress is not on Maven Central yet: lib-wp-password and test-gen are built from the pinned commit. The
+      # checkout stays inside the workspace (.quarkpress/ is ignored by git and is no module of this build).
+      - uses: actions/checkout@v4
+        with:
+          repository: QuarkPress/quarkpress
+          ref: ${{ env.QUARKPRESS_COMMIT }}
+          path: .quarkpress
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: maven
+      - name: Install lib-wp-password and test-gen at the pinned commit
+        # setup-java's Maven cache restores ~/.m2 with any earlier install: remove it so a changed pin is never hidden
+        run: |
+          rm -rf ~/.m2/repository/org/quarkpress
+          mvn -B -ntp install -DskipTests -f .quarkpress/pom.xml -pl libs/wp-password,testing/test-gen -am
+      # The last line fails the step when an integration test was renamed, filtered out or skipped.
+      - name: Build and test
+        run: |
+          mvn -B -ntp verify -Dkeycloak.image=quay.io/keycloak/keycloak:${{ matrix.keycloak }}
+          bash .github/scripts/require-tests-ran.sh \
+            wp-password/target/failsafe-reports/TEST-org.quarkpress.keycloak.wppassword.it.ShadedJarIT.xml
+      - name: Check formatting
+        if: matrix.keycloak == '26.7.4'
+        run: mvn -B -ntp spotless:check

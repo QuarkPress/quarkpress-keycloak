@@ -1,0 +1,8 @@
+QuarkPress Keycloak providers
+Copyright 2026 the QuarkPress contributors
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+The quarkpress-keycloak-wp-password jar includes QuarkPress lib-wp-password
+(https://github.com/QuarkPress/quarkpress, Apache License, Version 2.0),
+relocated to the package org.quarkpress.keycloak.wppassword.internal.lib.
