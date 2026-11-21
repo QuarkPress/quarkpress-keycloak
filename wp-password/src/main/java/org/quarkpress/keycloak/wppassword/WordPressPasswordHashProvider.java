@@ -50,7 +50,11 @@ final class WordPressPasswordHashProvider implements PasswordHashProvider {
         return WpPasswords.verify(rawPassword, hash);
     }
 
-    /** Always {@code false}: a WordPress hash never satisfies a realm policy, so it is always replaced. */
+    /**
+     * Always {@code false}. Keycloak asks the provider of the realm's own algorithm whether a stored credential needs
+     * a re-hash, so this answer only matters when {@code wordpress} is made the realm's or the server's algorithm, a
+     * misconfiguration: Keycloak then tries to re-hash with this provider, which refuses, and logs the failure.
+     */
     @Override
     public boolean policyCheck(PasswordPolicy policy, PasswordCredentialModel credential) {
         return false;

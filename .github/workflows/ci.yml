@@ -48,8 +48,14 @@ jobs:
       - name: Build and test
         run: |
           mvn -B -ntp verify -Dkeycloak.image=quay.io/keycloak/keycloak:${{ matrix.keycloak }}
+          reports=wp-password/target/failsafe-reports/TEST-org.quarkpress.keycloak.wppassword.it
           bash .github/scripts/require-tests-ran.sh \
-            wp-password/target/failsafe-reports/TEST-org.quarkpress.keycloak.wppassword.it.ShadedJarIT.xml
+            "$reports.ShadedJarIT.xml" \
+            "$reports.WordPressLoginIT.xml" \
+            "$reports.MigrationIT.xml" \
+            "$reports.ProviderAsDefaultIT.xml" \
+            "$reports.BrowserLoginIT.xml" \
+            "$reports.AcceptMd5OffIT.xml"
       - name: Check formatting
         if: matrix.keycloak == '26.7.4'
         run: mvn -B -ntp spotless:check

@@ -19,16 +19,16 @@ import java.util.TreeSet;
 /**
  * Reads {@code wordpress-7.1.3-hashes.txt}, the hashes WordPress 7.1.3 made and its answers for them. Rows are
  * looked up by id; the header's known-difference lists name the rows QuarkPress refuses although WordPress accepts
- * them.
+ * them. Public for the integration tests in the {@code it} package.
  */
-final class WordPressHashes {
+public final class WordPressHashes {
 
     static final String RESOURCE = "/wordpress-7.1.3-hashes.txt";
 
     private static final String DIFFERENCES_HEADER = "# Known differences:";
 
     /** One fixture row: the password, the stored hash and WordPress's answers. */
-    record Vector(
+    public record Vector(
             String id,
             String form,
             String password,
@@ -38,7 +38,7 @@ final class WordPressHashes {
             boolean needsRehash) {
 
         /** WordPress's login answer: the password as typed, or its magic-quoted form. */
-        boolean wordPressAccepts() {
+        public boolean wordPressAccepts() {
             return wpCheck || wpCheckSlashed;
         }
 
@@ -56,12 +56,12 @@ final class WordPressHashes {
     private WordPressHashes() {}
 
     /** Every row, in file order. */
-    static List<Vector> load() {
+    public static List<Vector> load() {
         return FIXTURE.rows();
     }
 
     /** The row with this id. */
-    static Vector row(String id) {
+    public static Vector row(String id) {
         return FIXTURE.rows().stream()
                 .filter(row -> row.id().equals(id))
                 .findFirst()
@@ -69,15 +69,20 @@ final class WordPressHashes {
     }
 
     /** The header's known-difference lists: label (W1, W2, ...) to row ids. */
-    static Map<String, List<String>> knownDifferences() {
+    public static Map<String, List<String>> knownDifferences() {
         return FIXTURE.knownDifferences();
     }
 
     /** The ids of every row in a known-difference list: forms WordPress accepts and QuarkPress refuses. */
-    static Set<String> refusedIds() {
+    public static Set<String> refusedIds() {
         Set<String> ids = new TreeSet<>();
         FIXTURE.knownDifferences().values().forEach(ids::addAll);
         return ids;
+    }
+
+    /** Whether QuarkPress signs this row in: WordPress does, and the row is not a known difference. */
+    public static boolean quarkPressAccepts(Vector row) {
+        return row.wordPressAccepts() && !refusedIds().contains(row.id());
     }
 
     private static Fixture parse() {
