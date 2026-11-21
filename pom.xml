@@ -46,7 +46,7 @@
          this commit and installs them; developers do the same once (see CONTRIBUTING.md). Change both properties
          together. -->
     <quarkpress.version>0.1.0-SNAPSHOT</quarkpress.version>
-    <quarkpress.commit>e0119108bbdfa135b31aecf04f43ec9bbd12b117</quarkpress.commit>
+    <quarkpress.commit>d344ec077d8e191a1ae74e2f7c35581d3e84301e</quarkpress.commit>
 
     <!-- Test libraries -->
     <junit.version>5.14.4</junit.version>
