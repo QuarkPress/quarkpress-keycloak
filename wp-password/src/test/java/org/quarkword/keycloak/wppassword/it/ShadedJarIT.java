@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -38,8 +38,8 @@ class ShadedJarIT {
 
     @Test
     void holdsTheLibRelocated() {
-        assertThat(names).contains("org/quarkpress/keycloak/wppassword/internal/lib/WpPasswords.class");
-        assertThat(names).noneMatch(name -> name.startsWith("org/quarkpress/lib/"));
+        assertThat(names).contains("org/quarkword/keycloak/wppassword/internal/lib/WpPasswords.class");
+        assertThat(names).noneMatch(name -> name.startsWith("org/quarkword/lib/"));
     }
 
     @Test
@@ -60,18 +60,18 @@ class ShadedJarIT {
         assertThat(licence).contains("Apache License", "Version 2.0, January 2004");
         String notice =
                 new String(jar.getInputStream(jar.getEntry("META-INF/NOTICE")).readAllBytes(), StandardCharsets.UTF_8);
-        assertThat(notice).contains("QuarkPress lib-wp-password");
+        assertThat(notice).contains("QuarkWord lib-wp-password");
     }
 
     @Test
     void namesItsOwnModule() throws IOException {
         assertThat(jar.getManifest().getMainAttributes().getValue("Automatic-Module-Name"))
-                .isEqualTo("org.quarkpress.keycloak.wppassword");
+                .isEqualTo("org.quarkword.keycloak.wppassword");
     }
 
     @Test
     void dropsTheLibsMavenMetadata() {
-        assertThat(names).noneMatch(name -> name.startsWith("META-INF/maven/org.quarkpress.lib/"));
+        assertThat(names).noneMatch(name -> name.startsWith("META-INF/maven/org.quarkword.lib/"));
     }
 
     @Test
@@ -80,7 +80,7 @@ class ShadedJarIT {
         try (var files = Files.list(target)) {
             List<Path> mains = files.filter(file -> {
                         String name = file.getFileName().toString();
-                        return name.startsWith("quarkpress-keycloak-wp-password-")
+                        return name.startsWith("quarkword-keycloak-wp-password-")
                                 && name.endsWith(".jar")
                                 && !name.startsWith("original-");
                     })

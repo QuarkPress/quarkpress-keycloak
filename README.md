@@ -1,7 +1,7 @@
-# QuarkPress Keycloak providers
+# QuarkWord Keycloak providers
 
-Keycloak providers for [QuarkPress](https://github.com/QuarkPress/quarkpress). The first one,
-`quarkpress-keycloak-wp-password`, is a password hash provider with the algorithm id `wordpress`. Users moved from a
+Keycloak providers for [QuarkWord](https://github.com/QuarkWord/quarkword). The first one,
+`quarkword-keycloak-wp-password`, is a password hash provider with the algorithm id `wordpress`. Users moved from a
 WordPress site into Keycloak sign in with their existing WordPress password. Keycloak then re-hashes that password
 with the realm's own algorithm on the first successful login. The provider only verifies imported WordPress hashes;
 it never hashes a new password.
@@ -13,7 +13,7 @@ it never hashes a new password.
 ## Install
 
 There is no release yet: build the jar (see [Building and testing](#building-and-testing)). The build writes
-`wp-password/target/quarkpress-keycloak-wp-password.jar`, a single jar that holds the provider and QuarkPress's
+`wp-password/target/quarkword-keycloak-wp-password.jar`, a single jar that holds the provider and QuarkWord's
 `lib-wp-password`, shaded and relocated. It has no other dependency.
 
 Copy the jar into Keycloak's `providers/` directory and run `kc.sh build` (or start without `--optimized`, which
@@ -21,7 +21,7 @@ builds automatically):
 
 ```Dockerfile
 FROM quay.io/keycloak/keycloak:26.7.4 AS builder
-COPY quarkpress-keycloak-wp-password.jar /opt/keycloak/providers/
+COPY quarkword-keycloak-wp-password.jar /opt/keycloak/providers/
 RUN /opt/keycloak/bin/kc.sh build
 
 FROM quay.io/keycloak/keycloak:26.7.4
@@ -33,7 +33,7 @@ Keycloak logs a warning at start-up, because `password-hashing` is an internal K
 release:
 
 ```
-KC-SERVICES0047: wordpress (org.quarkpress.keycloak.wppassword.WordPressPasswordHashProviderFactory) is implementing the internal SPI password-hashing.
+KC-SERVICES0047: wordpress (org.quarkword.keycloak.wppassword.WordPressPasswordHashProviderFactory) is implementing the internal SPI password-hashing.
 ```
 
 This is expected. It is the reason CI tests two Keycloak versions; test a Keycloak upgrade before you roll it out.
@@ -89,8 +89,8 @@ Through the Admin API (`POST /admin/realms/<realm>/users`):
 with `kcadm.sh create users -r <realm> -f user.json`, and in the `users` array of a realm import file. The tests
 import through the Admin API.
 
-QuarkPress's own importer, the
-[`quarkpress-keycloak-provisioner`](https://github.com/QuarkPress/quarkpress/tree/main/extensions/keycloak-provisioner)
+QuarkWord's own importer, the
+[`quarkword-keycloak-provisioner`](https://github.com/QuarkWord/quarkword/tree/main/extensions/keycloak-provisioner)
 extension, writes credentials in exactly this form.
 
 ### Forms
@@ -191,8 +191,8 @@ Each difference is covered by a test; the refused forms are rows of the fixture 
 ## Building and testing
 
 Requirements: JDK 21 or newer, Maven 3.9 or newer, and Docker or Podman for the integration tests, which start
-Keycloak with Testcontainers. QuarkPress's `lib-wp-password` and `test-gen` are not on Maven Central yet: install them
-from the QuarkPress commit named by the `quarkpress.commit` property in `pom.xml` (CI checks out and builds exactly
+Keycloak with Testcontainers. QuarkWord's `lib-wp-password` and `test-gen` are not on Maven Central yet: install them
+from the QuarkWord commit named by the `quarkword.commit` property in `pom.xml` (CI checks out and builds exactly
 that commit; the steps are in [CONTRIBUTING.md](CONTRIBUTING.md)). Then:
 
 ```sh
@@ -214,11 +214,11 @@ WordPress's files are loaded from `<wordpress-dir>` at run time and never copied
 
 ## Source policy
 
-The provider contains no WordPress code. Its behaviour comes from QuarkPress's `lib-wp-password`, which is tested
+The provider contains no WordPress code. Its behaviour comes from QuarkWord's `lib-wp-password`, which is tested
 against real WordPress, and from hashes made by running WordPress. Other WordPress or bcrypt password providers for
 Keycloak were not read. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Licence
 
-Apache License, Version 2.0 (see `LICENSE`). The jar includes QuarkPress `lib-wp-password`, also Apache-2.0,
-relocated to `org.quarkpress.keycloak.wppassword.internal.lib` (see `NOTICE`).
+Apache License, Version 2.0 (see `LICENSE`). The jar includes QuarkWord `lib-wp-password`, also Apache-2.0,
+relocated to `org.quarkword.keycloak.wppassword.internal.lib` (see `NOTICE`).

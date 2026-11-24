@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -18,7 +18,7 @@ import java.util.TreeSet;
 
 /**
  * Reads {@code wordpress-7.1.3-hashes.txt}, the hashes WordPress 7.1.3 made and its answers for them. Rows are
- * looked up by id; the header's known-difference lists name the rows QuarkPress refuses although WordPress accepts
+ * looked up by id; the header's known-difference lists name the rows QuarkWord refuses although WordPress accepts
  * them. Public for the integration tests in the {@code it} package.
  */
 public final class WordPressHashes {
@@ -73,14 +73,14 @@ public final class WordPressHashes {
         return FIXTURE.knownDifferences();
     }
 
-    /** The ids of every row in a known-difference list: forms WordPress accepts and QuarkPress refuses. */
+    /** The ids of every row in a known-difference list: forms WordPress accepts and QuarkWord refuses. */
     public static Set<String> refusedIds() {
         Set<String> ids = new TreeSet<>();
         FIXTURE.knownDifferences().values().forEach(ids::addAll);
         return ids;
     }
 
-    /** Whether QuarkPress signs this row in: WordPress does, and the row is not a known difference. */
+    /** Whether QuarkWord signs this row in: WordPress does, and the row is not a known difference. */
     public static boolean quarkPressAccepts(Vector row) {
         return row.wordPressAccepts() && !refusedIds().contains(row.id());
     }

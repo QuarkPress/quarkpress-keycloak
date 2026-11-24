@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -21,10 +21,10 @@ import org.keycloak.models.ModelException;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.provider.ProviderConfigProperty;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
-import org.quarkpress.testing.gen.Gen;
-import org.quarkpress.testing.gen.Gens;
-import org.quarkpress.testing.gen.Properties;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.testing.gen.Gen;
+import org.quarkword.testing.gen.Gens;
+import org.quarkword.testing.gen.Properties;
 
 class WordPressPasswordHashProviderTest {
 
@@ -118,7 +118,7 @@ class WordPressPasswordHashProviderTest {
                 "refused-phpass-countJ",
                 "refused-phpass-countS"
             })
-    void refusesTheFormsWordPressAcceptsButQuarkPressDoesNot(String id) {
+    void refusesTheFormsWordPressAcceptsButQuarkWordDoesNot(String id) {
         Vector row = WordPressHashes.row(id);
         assertThat(row.wpCheck()).as("WordPress accepts " + id).isTrue();
 

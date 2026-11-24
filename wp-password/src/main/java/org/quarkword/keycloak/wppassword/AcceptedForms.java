@@ -1,6 +1,6 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
-import org.quarkpress.lib.wppassword.HashType;
+import org.quarkword.lib.wppassword.HashType;
 
 /**
  * The stored-hash forms the provider verifies: WordPress 6.8 and later bcrypt ({@code $wp$}), phpass ({@code $P$}),

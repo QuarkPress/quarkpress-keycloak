@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
 import java.util.List;
 import org.keycloak.Config;

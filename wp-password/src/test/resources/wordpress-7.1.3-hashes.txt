@@ -9,7 +9,7 @@
 # Columns, separated by one space:
 #   id form password-hex hash wp_check_password(pw) wp_check_password(addslashes(pw)) wp_password_needs_rehash(hash)
 #   password-hex is the password's bytes in hex; <empty> stands for the empty string.
-# Known differences: QuarkPress refuses these forms although WordPress's wp_check_password accepts them:
+# Known differences: QuarkWord refuses these forms although WordPress's wp_check_password accepts them:
 #   W1 (lib-wp-password D1): refused-2x.
 #   W2 (lib-wp-password D2): refused-1, refused-5, refused-6, refused-argon2id.
 #   W3 (lib-wp-password D3): refused-bcrypt-cost17.

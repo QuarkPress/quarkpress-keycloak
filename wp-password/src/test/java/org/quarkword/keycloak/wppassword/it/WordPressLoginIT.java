@@ -1,8 +1,8 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.username;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.username;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -15,8 +15,8 @@ import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.keycloak.representations.idm.AdminEventRepresentation;
-import org.quarkpress.keycloak.wppassword.WordPressHashes;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.keycloak.wppassword.WordPressHashes;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
 
 /**
  * Every WordPress-made hash of the fixture, imported into a real Keycloak and signed in with through the password
@@ -29,7 +29,7 @@ class WordPressLoginIT {
 
     static final String REALM = "wordpress-login";
     static final String INTERNAL_SPI_WARNING = "KC-SERVICES0047: wordpress"
-            + " (org.quarkpress.keycloak.wppassword.WordPressPasswordHashProviderFactory) is implementing the internal"
+            + " (org.quarkword.keycloak.wppassword.WordPressPasswordHashProviderFactory) is implementing the internal"
             + " SPI password-hashing.";
 
     private static KeycloakServer server;
@@ -79,7 +79,7 @@ class WordPressLoginIT {
     @Order(1)
     @ParameterizedTest(name = "{0}")
     @MethodSource("refusedRows")
-    void passwordsAndFormsWordPressOrQuarkPressRefusesAreRefused(Vector row) {
+    void passwordsAndFormsWordPressOrQuarkWordRefusesAreRefused(Vector row) {
         KeycloakServer.Reply reply = server.passwordGrant(REALM, username(row.id()), row.password());
 
         assertInvalidCredentials(reply);

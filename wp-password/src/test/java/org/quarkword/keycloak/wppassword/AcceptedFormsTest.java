@@ -1,11 +1,11 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.EnumSet;
 import java.util.Set;
 import org.junit.jupiter.api.Test;
-import org.quarkpress.lib.wppassword.HashType;
+import org.quarkword.lib.wppassword.HashType;
 
 class AcceptedFormsTest {
 

@@ -1,6 +1,6 @@
 target/
-# the QuarkPress checkout CI builds lib-wp-password from
-.quarkpress/
+# the QuarkWord checkout CI builds lib-wp-password from
+.quarkword/
 .idea/
 *.iml
 .vscode/

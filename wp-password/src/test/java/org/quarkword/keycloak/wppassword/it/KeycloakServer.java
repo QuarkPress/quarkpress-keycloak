@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -126,7 +126,7 @@ final class KeycloakServer implements AutoCloseable {
     }
 
     /**
-     * Creates a user carrying a WordPress hash as its password credential, written as QuarkPress's provisioner writes
+     * Creates a user carrying a WordPress hash as its password credential, written as QuarkWord's provisioner writes
      * it: algorithm {@code wordpress}, hash iterations 0, empty algorithm data and no salt. Returns the user id.
      */
     String importUser(String realm, String username, String hash) {

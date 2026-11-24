@@ -2,14 +2,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>org.quarkpress.keycloak</groupId>
-  <artifactId>quarkpress-keycloak-parent</artifactId>
+  <groupId>org.quarkword.keycloak</groupId>
+  <artifactId>quarkword-keycloak-parent</artifactId>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
-  <name>QuarkPress Keycloak Providers Parent</name>
-  <description>Keycloak providers for QuarkPress: WordPress password hashes</description>
-  <url>https://github.com/QuarkPress/quarkpress-keycloak</url>
+  <name>QuarkWord Keycloak Providers Parent</name>
+  <description>Keycloak providers for QuarkWord: WordPress password hashes</description>
+  <url>https://github.com/QuarkWord/quarkword-keycloak</url>
   <inceptionYear>2026</inceptionYear>
 
   <licenses>
@@ -25,9 +25,9 @@
   </modules>
 
   <scm>
-    <connection>scm:git:https://github.com/QuarkPress/quarkpress-keycloak.git</connection>
-    <developerConnection>scm:git:git@github.com:QuarkPress/quarkpress-keycloak.git</developerConnection>
-    <url>https://github.com/QuarkPress/quarkpress-keycloak</url>
+    <connection>scm:git:https://github.com/QuarkWord/quarkword-keycloak.git</connection>
+    <developerConnection>scm:git:git@github.com:QuarkWord/quarkword-keycloak.git</developerConnection>
+    <url>https://github.com/QuarkWord/quarkword-keycloak</url>
   </scm>
 
   <properties>
@@ -42,11 +42,11 @@
     <!-- the version shipped in the Keycloak 26.7.4 image -->
     <jboss-logging.version>3.6.2.Final</jboss-logging.version>
 
-    <!-- QuarkPress's lib-wp-password and test-gen are not on Maven Central yet. CI checks out QuarkPress/quarkpress at
+    <!-- QuarkWord's lib-wp-password and test-gen are not on Maven Central yet. CI checks out QuarkWord/quarkword at
          this commit and installs them; developers do the same once (see CONTRIBUTING.md). Change both properties
          together. -->
-    <quarkpress.version>0.1.0-SNAPSHOT</quarkpress.version>
-    <quarkpress.commit>d344ec077d8e191a1ae74e2f7c35581d3e84301e</quarkpress.commit>
+    <quarkword.version>0.1.0-SNAPSHOT</quarkword.version>
+    <quarkword.commit>1bf3a5f2474c56bdb3092efd7512fc7d352c678a</quarkword.commit>
 
     <!-- Test libraries -->
     <junit.version>5.14.4</junit.version>
@@ -117,14 +117,14 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>org.quarkpress.lib</groupId>
-        <artifactId>quarkpress-lib-wp-password</artifactId>
-        <version>${quarkpress.version}</version>
+        <groupId>org.quarkword.lib</groupId>
+        <artifactId>quarkword-lib-wp-password</artifactId>
+        <version>${quarkword.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.quarkpress.testing</groupId>
-        <artifactId>quarkpress-test-gen</artifactId>
-        <version>${quarkpress.version}</version>
+        <groupId>org.quarkword.testing</groupId>
+        <artifactId>quarkword-test-gen</artifactId>
+        <version>${quarkword.version}</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -176,7 +176,7 @@
             <reuseForks>true</reuseForks>
             <systemPropertyVariables>
               <keycloak.image>${keycloak.image}</keycloak.image>
-              <provider.jar>${project.build.directory}/quarkpress-keycloak-wp-password.jar</provider.jar>
+              <provider.jar>${project.build.directory}/quarkword-keycloak-wp-password.jar</provider.jar>
             </systemPropertyVariables>
           </configuration>
           <executions>
@@ -237,16 +237,16 @@
                 <requireMavenVersion>
                   <version>[3.9,)</version>
                 </requireMavenVersion>
-                <!-- QuarkPress's own modules are the only SNAPSHOTs allowed: a local repository may hold Keycloak or
+                <!-- QuarkWord's own modules are the only SNAPSHOTs allowed: a local repository may hold Keycloak or
                      Quarkus SNAPSHOT builds, and none of them may ever enter this build. -->
                 <requireReleaseDeps>
-                  <message>Only QuarkPress's own modules may be SNAPSHOT dependencies; use exact release versions.</message>
+                  <message>Only QuarkWord's own modules may be SNAPSHOT dependencies; use exact release versions.</message>
                   <searchTransitive>true</searchTransitive>
                   <excludes>
-                    <exclude>org.quarkpress:*</exclude>
-                    <exclude>org.quarkpress.lib:*</exclude>
-                    <exclude>org.quarkpress.testing:*</exclude>
-                    <exclude>org.quarkpress.keycloak:*</exclude>
+                    <exclude>org.quarkword:*</exclude>
+                    <exclude>org.quarkword.lib:*</exclude>
+                    <exclude>org.quarkword.testing:*</exclude>
+                    <exclude>org.quarkword.keycloak:*</exclude>
                   </excludes>
                 </requireReleaseDeps>
               </rules>

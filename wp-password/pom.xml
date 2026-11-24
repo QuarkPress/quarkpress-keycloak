@@ -3,17 +3,17 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.quarkpress.keycloak</groupId>
-    <artifactId>quarkpress-keycloak-parent</artifactId>
+    <groupId>org.quarkword.keycloak</groupId>
+    <artifactId>quarkword-keycloak-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>quarkpress-keycloak-wp-password</artifactId>
-  <name>QuarkPress Keycloak WordPress Password Hashes</name>
+  <artifactId>quarkword-keycloak-wp-password</artifactId>
+  <name>QuarkWord Keycloak WordPress Password Hashes</name>
   <description>A Keycloak password hash provider that verifies imported WordPress password hashes</description>
 
   <properties>
-    <automatic.module.name>org.quarkpress.keycloak.wppassword</automatic.module.name>
+    <automatic.module.name>org.quarkword.keycloak.wppassword</automatic.module.name>
   </properties>
 
   <dependencies>
@@ -40,13 +40,13 @@
     </dependency>
     <!-- shaded into the jar and relocated -->
     <dependency>
-      <groupId>org.quarkpress.lib</groupId>
-      <artifactId>quarkpress-lib-wp-password</artifactId>
+      <groupId>org.quarkword.lib</groupId>
+      <artifactId>quarkword-lib-wp-password</artifactId>
     </dependency>
 
     <dependency>
-      <groupId>org.quarkpress.testing</groupId>
-      <artifactId>quarkpress-test-gen</artifactId>
+      <groupId>org.quarkword.testing</groupId>
+      <artifactId>quarkword-test-gen</artifactId>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -91,19 +91,19 @@
               <dependencyReducedPomLocation>${project.build.directory}/dependency-reduced-pom.xml</dependencyReducedPomLocation>
               <artifactSet>
                 <includes>
-                  <include>org.quarkpress.lib:quarkpress-lib-wp-password</include>
+                  <include>org.quarkword.lib:quarkword-lib-wp-password</include>
                 </includes>
               </artifactSet>
               <relocations>
                 <relocation>
-                  <pattern>org.quarkpress.lib.wppassword</pattern>
-                  <shadedPattern>org.quarkpress.keycloak.wppassword.internal.lib</shadedPattern>
+                  <pattern>org.quarkword.lib.wppassword</pattern>
+                  <shadedPattern>org.quarkword.keycloak.wppassword.internal.lib</shadedPattern>
                 </relocation>
               </relocations>
               <filters>
                 <!-- the lib's manifest names its own module; this jar's manifest is the one kept -->
                 <filter>
-                  <artifact>org.quarkpress.lib:quarkpress-lib-wp-password</artifact>
+                  <artifact>org.quarkword.lib:quarkword-lib-wp-password</artifact>
                   <excludes>
                     <exclude>META-INF/maven/**</exclude>
                     <exclude>META-INF/MANIFEST.MF</exclude>
@@ -122,10 +122,10 @@
                      transformer's own attribution line true for this project -->
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
                   <addHeader>false</addHeader>
-                  <projectName>QuarkPress Keycloak providers</projectName>
+                  <projectName>QuarkWord Keycloak providers</projectName>
                   <inceptionYear>2026</inceptionYear>
-                  <organizationName>the QuarkPress contributors</organizationName>
-                  <organizationURL>https://github.com/QuarkPress</organizationURL>
+                  <organizationName>the QuarkWord contributors</organizationName>
+                  <organizationURL>https://github.com/QuarkWord</organizationURL>
                   <preamble3 xml:space="preserve">This product includes software developed by </preamble3>
                   <encoding>UTF-8</encoding>
                 </transformer>
@@ -140,7 +140,7 @@
         </executions>
       </plugin>
       <!-- A fixed file name for mounting into Keycloak's providers/ directory (the integration tests, and the
-           QuarkPress monorepo's end-to-end test) -->
+           QuarkWord monorepo's end-to-end test) -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -153,7 +153,7 @@
             </goals>
             <configuration>
               <target>
-                <copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="${project.build.directory}/quarkpress-keycloak-wp-password.jar" overwrite="true"/>
+                <copy file="${project.build.directory}/${project.build.finalName}.jar" tofile="${project.build.directory}/quarkword-keycloak-wp-password.jar" overwrite="true"/>
               </target>
             </configuration>
           </execution>

@@ -1,6 +1,6 @@
 <?php
 /*
- * Copyright 2026 The QuarkPress Authors
+ * Copyright 2026 The QuarkWord Authors
  * SPDX-License-Identifier: Apache-2.0
  *
  * Writes wordpress-7.1.3-hashes.txt: password hashes made by running WordPress's own functions, each with
@@ -30,7 +30,7 @@ if (!defined('PASSWORD_ARGON2ID')) {
 
 define('ABSPATH', rtrim($argv[1], '/') . '/');
 define('WPINC', 'wp-includes');
-define('QP_WP', ABSPATH . WPINC . '/');
+define('QW_WP', ABSPATH . WPINC . '/');
 
 // The few environment functions WordPress code expects from a full install.
 function __($text, $domain = 'default')
@@ -53,7 +53,7 @@ function get_option($option, $default_value = false)
  * Loads selected top-level functions from a PHP file that cannot be included as a whole: the file is tokenized,
  * each requested function's source is cut out by brace matching, and only those snippets are evaluated.
  */
-function qp_load_functions(string $file, array $names): void
+function qw_load_functions(string $file, array $names): void
 {
     $isOpen = static fn (array|string $token): bool => '{' === $token
         || (is_array($token) && in_array($token[0], [T_CURLY_OPEN, T_DOLLAR_OPEN_CURLY_BRACES], true));
@@ -110,20 +110,20 @@ function qp_load_functions(string $file, array $names): void
     }
 }
 
-require QP_WP . 'version.php';
-require QP_WP . 'plugin.php';
-qp_load_functions(QP_WP . 'functions.php', ['wp_fast_hash', 'wp_verify_fast_hash']);
-require QP_WP . 'pluggable.php';
-require QP_WP . 'class-phpass.php';
+require QW_WP . 'version.php';
+require QW_WP . 'plugin.php';
+qw_load_functions(QW_WP . 'functions.php', ['wp_fast_hash', 'wp_verify_fast_hash']);
+require QW_WP . 'pluggable.php';
+require QW_WP . 'class-phpass.php';
 
 /** A bcrypt salt of 22 characters, taken from a fresh password_hash() so it uses bcrypt's own alphabet. */
-function qp_bcrypt_salt(): string
+function qw_bcrypt_salt(): string
 {
     return substr(password_hash('salt', PASSWORD_BCRYPT, ['cost' => 4]), 7, 22);
 }
 
 /** A salt for crypt()'s $1$, $5$ and $6$ forms: 8 characters of [./0-9A-Za-z]. */
-function qp_crypt_salt(): string
+function qw_crypt_salt(): string
 {
     $alphabet = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     $salt = '';
@@ -134,7 +134,7 @@ function qp_crypt_salt(): string
 }
 
 /** crypt(), failing loudly instead of returning a failure marker. */
-function qp_crypt(string $password, string $setting): string
+function qw_crypt(string $password, string $setting): string
 {
     $hash = crypt($password, $setting);
     if (strlen($hash) < 13 || !str_starts_with($hash, substr($setting, 0, 3))) {
@@ -171,8 +171,8 @@ foreach ($passwords as $key => $password) {
 foreach ($passwords as $key => $password) {
     $add('bcrypt-' . $key, 'bcrypt', $password, password_hash($stored($key, $password), PASSWORD_BCRYPT, ['cost' => 10]));
 }
-$add('bcrypt2a-ascii', 'bcrypt', $passwords['ascii'], qp_crypt($passwords['ascii'], '$2a$10$' . qp_bcrypt_salt()));
-$add('bcrypt2b-ascii', 'bcrypt', $passwords['ascii'], qp_crypt($passwords['ascii'], '$2b$10$' . qp_bcrypt_salt()));
+$add('bcrypt2a-ascii', 'bcrypt', $passwords['ascii'], qw_crypt($passwords['ascii'], '$2a$10$' . qw_bcrypt_salt()));
+$add('bcrypt2b-ascii', 'bcrypt', $passwords['ascii'], qw_crypt($passwords['ascii'], '$2b$10$' . qw_bcrypt_salt()));
 
 // The reverse of the screen form: O'Brien hashed unslashed, as a path that does not slash would write it.
 $add('wp-quote-unslashed', 'wp', $passwords['quote'], wp_hash_password($passwords['quote']));
@@ -213,19 +213,19 @@ $long4097 = str_repeat('a', 4097);
 $add('md5-long4097', 'md5', $long4097, md5($long4097));
 
 // Forms WordPress never writes; its answer is recorded all the same.
-$add('refused-2x', 'bcrypt-2x', $passwords['ascii'], qp_crypt($passwords['ascii'], '$2x$10$' . qp_bcrypt_salt()));
-$add('refused-1', 'md5-crypt', $passwords['ascii'], qp_crypt($passwords['ascii'], '$1$' . qp_crypt_salt() . '$'));
-$add('refused-5', 'sha256-crypt', $passwords['ascii'], qp_crypt($passwords['ascii'], '$5$' . qp_crypt_salt() . '$'));
-$add('refused-6', 'sha512-crypt', $passwords['ascii'], qp_crypt($passwords['ascii'], '$6$' . qp_crypt_salt() . '$'));
+$add('refused-2x', 'bcrypt-2x', $passwords['ascii'], qw_crypt($passwords['ascii'], '$2x$10$' . qw_bcrypt_salt()));
+$add('refused-1', 'md5-crypt', $passwords['ascii'], qw_crypt($passwords['ascii'], '$1$' . qw_crypt_salt() . '$'));
+$add('refused-5', 'sha256-crypt', $passwords['ascii'], qw_crypt($passwords['ascii'], '$5$' . qw_crypt_salt() . '$'));
+$add('refused-6', 'sha512-crypt', $passwords['ascii'], qw_crypt($passwords['ascii'], '$6$' . qw_crypt_salt() . '$'));
 $add('refused-argon2id', 'argon2id', $passwords['ascii'], password_hash($passwords['ascii'], PASSWORD_ARGON2ID));
 $phpbbSetting = '$H$' . substr($phpass->HashPassword($passwords['ascii']), 3, 9);
 $add('refused-phpbb', 'phpbb', $passwords['ascii'], $phpass->crypt_private($passwords['ascii'], $phpbbSetting));
 $add('refused-generic', 'generic', $passwords['ascii'], wp_fast_hash($passwords['ascii']));
-// Work above QuarkPress's bounds. WordPress computes these; QuarkPress refuses them without computing.
-// bcrypt cost 17 is the lowest above QuarkPress's bound of 16 (cost 31 would take WordPress about a day per check).
+// Work above QuarkWord's bounds. WordPress computes these; QuarkWord refuses them without computing.
+// bcrypt cost 17 is the lowest above QuarkWord's bound of 16 (cost 31 would take WordPress about a day per check).
 $add('refused-bcrypt-cost17', 'bcrypt', $passwords['ascii'],
     password_hash($passwords['ascii'], PASSWORD_BCRYPT, ['cost' => 17]));
-// phpass count J (2^20 rounds) is the lowest above QuarkPress's bound of I; S (2^30) is the highest phpass allows.
+// phpass count J (2^20 rounds) is the lowest above QuarkWord's bound of I; S (2^30) is the highest phpass allows.
 foreach (['J', 'S'] as $count) {
     $setting = '$P$' . $count . substr($phpass->HashPassword($passwords['ascii']), 4, 8);
     $add('refused-phpass-count' . $count, 'phpass', $passwords['ascii'],
@@ -240,8 +240,8 @@ $field = static fn (string $value): string => '' === $value ? '<empty>' : $value
 echo '# WordPress ', $wp_version, ' password hashes, produced by running WordPress; regenerate with',
     " `php src/test/php/make-fixtures.php <dir>`.\n";
 echo '# PHP ', PHP_VERSION, ', date ', gmdate('Y-m-d'), ', SHA-256 of wp-includes/pluggable.php ',
-    hash_file('sha256', QP_WP . 'pluggable.php'), ', of wp-includes/class-phpass.php ',
-    hash_file('sha256', QP_WP . 'class-phpass.php'), ".\n";
+    hash_file('sha256', QW_WP . 'pluggable.php'), ', of wp-includes/class-phpass.php ',
+    hash_file('sha256', QW_WP . 'class-phpass.php'), ".\n";
 echo "# Made by: wp_hash_password with no filter (wp), PasswordHash(8, true)->HashPassword (phpass), md5() (md5),\n";
 echo "#   password_hash(PASSWORD_BCRYPT, cost 10 or 17) or crypt() with a \$2a\$/\$2b\$ setting (bcrypt), crypt()\n";
 echo "#   (bcrypt-2x, md5-crypt, sha256-crypt, sha512-crypt), password_hash(PASSWORD_ARGON2ID) (argon2id),\n";
@@ -251,7 +251,7 @@ echo "#   screens and REST API pass to the hash functions; the *-quote-unslashed
 echo "# Columns, separated by one space:\n";
 echo "#   id form password-hex hash wp_check_password(pw) wp_check_password(addslashes(pw)) wp_password_needs_rehash(hash)\n";
 echo "#   password-hex is the password's bytes in hex; <empty> stands for the empty string.\n";
-echo "# Known differences: QuarkPress refuses these forms although WordPress's wp_check_password accepts them:\n";
+echo "# Known differences: QuarkWord refuses these forms although WordPress's wp_check_password accepts them:\n";
 echo "#   W1 (lib-wp-password D1): refused-2x.\n";
 echo "#   W2 (lib-wp-password D2): refused-1, refused-5, refused-6, refused-argon2id.\n";
 echo "#   W3 (lib-wp-password D3): refused-bcrypt-cost17.\n";

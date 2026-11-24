@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
 import org.jboss.logging.Logger;
 import org.keycloak.credential.hash.PasswordHashProvider;
@@ -6,8 +6,8 @@ import org.keycloak.models.ModelException;
 import org.keycloak.models.PasswordPolicy;
 import org.keycloak.models.credential.PasswordCredentialModel;
 import org.keycloak.models.credential.dto.PasswordSecretData;
-import org.quarkpress.lib.wppassword.HashType;
-import org.quarkpress.lib.wppassword.WpPasswords;
+import org.quarkword.lib.wppassword.HashType;
+import org.quarkword.lib.wppassword.WpPasswords;
 
 /**
  * Verifies passwords against hashes imported from WordPress, and never hashes a new password. Keycloak re-hashes the

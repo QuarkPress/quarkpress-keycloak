@@ -1,4 +1,4 @@
-package org.quarkpress.keycloak.wppassword;
+package org.quarkword.keycloak.wppassword;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,7 +21,7 @@ import org.junit.jupiter.params.provider.CsvSource;
 import org.keycloak.credential.hash.PasswordHashProvider;
 import org.keycloak.models.ModelException;
 import org.keycloak.models.credential.PasswordCredentialModel;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
 
 /**
  * Every log record written while verifying every fixture row, right and wrong passwords, MD5 on and off: none holds a

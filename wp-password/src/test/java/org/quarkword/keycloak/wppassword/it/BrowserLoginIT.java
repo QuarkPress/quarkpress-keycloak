@@ -1,12 +1,12 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.CLIENT_ID;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.CLIENT_SECRET;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.REDIRECT_URI;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.username;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.CLIENT_ID;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.CLIENT_SECRET;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.REDIRECT_URI;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.username;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,8 +25,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.quarkpress.keycloak.wppassword.WordPressHashes;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.keycloak.wppassword.WordPressHashes;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
 
 /**
  * The authorization code flow through Keycloak's own login form, driven over HTTP: the WordPress password typed into

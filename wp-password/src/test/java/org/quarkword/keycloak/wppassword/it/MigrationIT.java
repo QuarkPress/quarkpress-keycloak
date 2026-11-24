@@ -1,9 +1,9 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.username;
-import static org.quarkpress.keycloak.wppassword.it.WordPressLoginIT.assertInvalidCredentials;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.username;
+import static org.quarkword.keycloak.wppassword.it.WordPressLoginIT.assertInvalidCredentials;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import java.time.Duration;
@@ -15,8 +15,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.keycloak.representations.idm.CredentialRepresentation;
-import org.quarkpress.keycloak.wppassword.WordPressHashes;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.keycloak.wppassword.WordPressHashes;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
 
 /**
  * The first successful login replaces the WordPress hash with the realm's algorithm (Argon2 by default), in the same

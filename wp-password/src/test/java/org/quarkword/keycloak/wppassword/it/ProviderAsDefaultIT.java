@@ -1,17 +1,17 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowableOfType;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
-import static org.quarkpress.keycloak.wppassword.it.WordPressLoginIT.assertInvalidCredentials;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
+import static org.quarkword.keycloak.wppassword.it.WordPressLoginIT.assertInvalidCredentials;
 
 import jakarta.ws.rs.BadRequestException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.keycloak.representations.idm.CredentialRepresentation;
-import org.quarkpress.keycloak.wppassword.WordPressHashes;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.keycloak.wppassword.WordPressHashes;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
 
 /**
  * A misconfiguration, recorded: {@code wordpress} made the server's default algorithm. Imported hashes still sign in

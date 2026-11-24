@@ -24,16 +24,16 @@ jobs:
       # Read with sed, not Maven: the build needs lib-wp-password, which is installed only by the next steps.
       - name: Read the pin
         run: |
-          pin="$(sed -n 's:.*<quarkpress.commit>\(.*\)</quarkpress.commit>.*:\1:p' pom.xml)"
-          [ "${#pin}" -eq 40 ] || { echo "::error::quarkpress.commit not found in pom.xml"; exit 1; }
-          echo "QUARKPRESS_COMMIT=$pin" >> "$GITHUB_ENV"
-      # QuarkPress is not on Maven Central yet: lib-wp-password and test-gen are built from the pinned commit. The
-      # checkout stays inside the workspace (.quarkpress/ is ignored by git and is no module of this build).
+          pin="$(sed -n 's:.*<quarkword.commit>\(.*\)</quarkword.commit>.*:\1:p' pom.xml)"
+          [ "${#pin}" -eq 40 ] || { echo "::error::quarkword.commit not found in pom.xml"; exit 1; }
+          echo "QUARKWORD_COMMIT=$pin" >> "$GITHUB_ENV"
+      # QuarkWord is not on Maven Central yet: lib-wp-password and test-gen are built from the pinned commit. The
+      # checkout stays inside the workspace (.quarkword/ is ignored by git and is no module of this build).
       - uses: actions/checkout@v4
         with:
-          repository: QuarkPress/quarkpress
-          ref: ${{ env.QUARKPRESS_COMMIT }}
-          path: .quarkpress
+          repository: QuarkWord/quarkword
+          ref: ${{ env.QUARKWORD_COMMIT }}
+          path: .quarkword
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -42,13 +42,13 @@ jobs:
       - name: Install lib-wp-password and test-gen at the pinned commit
         # setup-java's Maven cache restores ~/.m2 with any earlier install: remove it so a changed pin is never hidden
         run: |
-          rm -rf ~/.m2/repository/org/quarkpress
-          mvn -B -ntp install -DskipTests -f .quarkpress/pom.xml -pl libs/wp-password,testing/test-gen -am
+          rm -rf ~/.m2/repository/org/quarkword
+          mvn -B -ntp install -DskipTests -f .quarkword/pom.xml -pl libs/wp-password,testing/test-gen -am
       # The last line fails the step when an integration test was renamed, filtered out or skipped.
       - name: Build and test
         run: |
           mvn -B -ntp verify -Dkeycloak.image=quay.io/keycloak/keycloak:${{ matrix.keycloak }}
-          reports=wp-password/target/failsafe-reports/TEST-org.quarkpress.keycloak.wppassword.it
+          reports=wp-password/target/failsafe-reports/TEST-org.quarkword.keycloak.wppassword.it
           bash .github/scripts/require-tests-ran.sh \
             "$reports.ShadedJarIT.xml" \
             "$reports.WordPressLoginIT.xml" \

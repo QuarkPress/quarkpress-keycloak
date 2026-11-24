@@ -1,17 +1,17 @@
-package org.quarkpress.keycloak.wppassword.it;
+package org.quarkword.keycloak.wppassword.it;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
-import static org.quarkpress.keycloak.wppassword.it.KeycloakServer.username;
-import static org.quarkpress.keycloak.wppassword.it.WordPressLoginIT.assertInvalidCredentials;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.WORDPRESS;
+import static org.quarkword.keycloak.wppassword.it.KeycloakServer.username;
+import static org.quarkword.keycloak.wppassword.it.WordPressLoginIT.assertInvalidCredentials;
 
 import java.util.stream.Stream;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
-import org.quarkpress.keycloak.wppassword.WordPressHashes;
-import org.quarkpress.keycloak.wppassword.WordPressHashes.Vector;
+import org.quarkword.keycloak.wppassword.WordPressHashes;
+import org.quarkword.keycloak.wppassword.WordPressHashes.Vector;
 
 /** {@code --spi-password-hashing--wordpress--accept-md5=false}: MD5 hashes are refused, the other forms still sign in. */
 class AcceptMd5OffIT {
